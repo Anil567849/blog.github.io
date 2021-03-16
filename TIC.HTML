@@ -1,0 +1,167 @@
+<html>
+
+<head>
+<title></title>
+
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<style>
+
+body{
+width: 550px;
+margin: auto;
+background: #EAF2EF;
+}
+
+h1{
+border-bottom: 1px solid black;
+
+}
+
+td{
+height: 150px;
+width: 150px;
+font-size: 45px;
+text-align: center;
+
+
+}
+
+#msg{
+font-size: 40px;
+}
+
+#restart{
+color:black;font-size: 20px;
+text-decoration: none;
+text-align: center;
+color: white;
+}
+
+.btn{
+border: 1px solid red;
+width: 150px;
+margin-left: 150px;
+
+}
+
+</style>
+
+</head>
+
+
+<body onload="startGame()">
+<div id="msg"></div><br>
+<table border="1">
+	<tr>
+		<td onclick="nextMove(this)" id="s1"></td>
+		<td onclick="nextMove(this)" id="s2"></td>
+		<td onclick="nextMove(this)" id="s3"></td>
+	</tr>	
+	<tr>
+		<td onclick="nextMove(this)" id="s4"></td>
+		<td onclick="nextMove(this)" id="s5"></td>
+		<td onclick="nextMove(this)" id="s6"></td>
+	</tr>
+	<tr>
+		<td onclick="nextMove(this)" id="s7"></td>
+		<td onclick="nextMove(this)" id="s8"></td>
+		<td onclick="nextMove(this)" id="s9"></td>
+	</tr>
+</table>
+
+<button class="btn btn-primary" ><a href="javascript: startGame();" id="restart">Start Again</a>
+<span class="spinner-border " role="status" aria-hidden="true"></span>
+
+</button>
+
+
+<script>
+function startGame(){
+
+for(var i = 1; i<=9; i++){
+clearBox(i)
+}
+
+move = "X";
+winner = null;
+setMsg(move + " get's to start ");
+}
+
+function setMsg(msg){
+document.getElementById('msg').innerText = msg;
+}
+
+function nextMove(square){
+if(winner != null){
+setMsg(move + " already won")
+}
+else if(square.innerText == ""){
+square.innerText = move;
+switchTurn();
+}
+else{
+setMsg("pick another square")
+}
+}
+
+function switchTurn(){
+if(checkForWinner(move)){
+setMsg("congrats " + move + ", you won")
+winner = move;
+}
+else if(move == "X"){
+move = "O";
+setMsg("it's" + move + "'s turn.")
+}
+else{
+move = "X";
+setMsg("it's" + move + "'s turn.")
+}
+
+}
+
+
+function checkForWinner(move){
+var result = false;
+if(checkRow(1 ,2, 3, move) ||
+checkRow(4 ,5, 6, move) ||
+checkRow(7 ,8, 9, move) ||
+checkRow(1 ,5, 9, move) ||
+checkRow(3 ,5, 7, move) ||
+checkRow(1 ,4, 7, move) ||
+checkRow(2 ,5, 8, move) ||
+checkRow(3 ,6, 9, move)){
+result = true;
+}
+return result;
+}
+
+
+
+
+
+
+function checkRow(a, b ,c, move){
+var result = false;
+if(getBox(a) == move && getBox(b)==move && getBox(c) ==move){
+result = true;
+}
+return result;
+}
+
+function getBox(number){
+return document.getElementById("s"+ number).innerText;
+}
+
+
+function clearBox(number){
+document.getElementById("s" + number).innerText = "";
+}
+
+
+
+</script>
+</body>
+
+</html>
